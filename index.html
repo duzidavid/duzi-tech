@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Duzi.tech</title>
+    <meta name="description" content="Duzi.tech – jednoduchý, dynamický a lehký landing s pomalejším pohybem a plynulou změnou barev pozadí." />
+
+    <link rel="icon" href='data:image/svg+xml;utf8,
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="%231ba2ff"/>
+            <stop offset="1" stop-color="%23a62cff"/>
+          </linearGradient>
+        </defs>
+        <rect width="128" height="128" rx="26" fill="url(%23g)"/>
+        <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle"
+              font-family="system-ui,Segoe UI,Roboto,Ubuntu,Inter,sans-serif"
+              font-size="72" font-weight="700" fill="white">D</text>
+      </svg>' />
+
+    <style>
+      :root {
+        --bg-1: hsl(210 90% 55%);
+        --bg-2: hsl(280 90% 55%);
+        --fg: 255, 255, 255;
+        --txt: hsl(0 0% 98%);
+        --muted: hsl(0 0% 80% / .6);
+        --card: hsl(0 0% 100% / .06);
+        --shadow: 0 10px 30px hsl(0 0% 0% / .25);
+      }
+      :root[data-theme="sunset"]{ --bg-1: hsl(14 90% 55%); --bg-2: hsl(329 85% 55%); }
+      :root[data-theme="sea"]{ --bg-1: hsl(192 95% 50%); --bg-2: hsl(158 80% 43%); }
+      :root[data-theme="neon"]{ --bg-1: hsl(267 92% 51%); --bg-2: hsl(178 95% 45%); }
+
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--txt);
+        background: radial-gradient(120vmax 120vmax at 0% 0%, var(--bg-1), transparent),
+                    radial-gradient(120vmax 120vmax at 100% 100%, var(--bg-2), transparent),
+                    linear-gradient(135deg, color-mix(in oklab, var(--bg-1), black 15%), color-mix(in oklab, var(--bg-2), black 15%));
+        overflow: hidden;
+      }
+
+      .grain { position: fixed; inset: -50%; pointer-events: none; opacity: .06; filter: contrast(120%); mix-blend-mode: overlay; background-image: url('data:image/svg+xml;utf8,
+        <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 100 100">
+          <filter id="n"><feTurbulence baseFrequency="0.8" numOctaves="2"/></filter>
+          <rect width="100" height="100" filter="url(%23n)" opacity=".5"/>
+        </svg>'); }
+
+      .app { position: relative; min-height: 100dvh; display: grid; place-items: center; padding: clamp(16px, 4vw, 48px); }
+
+      .card {
+        position: relative; width: min(900px, 92vw); border-radius: 24px;
+        background: linear-gradient(180deg, hsl(0 0% 100% / .10), hsl(0 0% 100% / .04));
+        box-shadow: var(--shadow); border: 1px solid hsl(0 0% 100% / .15);
+        backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%);
+        overflow: clip;
+      }
+
+      header { padding: clamp(20px, 5vw, 36px); display: flex; gap: 16px; align-items: center; justify-content: space-between; }
+      .brand { display: flex; align-items: center; gap: 14px; }
+      .logo { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--bg-1), var(--bg-2)); display: grid; place-items: center; color: rgba(var(--fg), .95); font-weight: 800; letter-spacing: .5px; box-shadow: inset 0 0 24px hsl(0 0% 0% / .15); }
+
+      h1 { margin: 0; font-size: clamp(28px, 5vw, 48px); letter-spacing: .3px; }
+      .subtitle { margin-top: 4px; color: var(--muted); font-size: clamp(14px, 2.2vw, 18px); min-height: 1.2em; }
+
+      .controls { display: flex; gap: 8px; align-items: center; }
+      button.icon { appearance: none; border: 0; padding: 10px 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: hsl(0 0% 98%); background: hsl(0 0% 100% / .12); border: 1px solid hsl(0 0% 100% / .18); box-shadow: inset 0 -1px 0 hsl(0 0% 100% / .15); transition: transform .12s ease, background .2s ease; }
+      button.icon:hover { transform: translateY(-1px); background: hsl(0 0% 100% / .18); }
+
+      main { position: relative; padding: 0 24px 24px 24px; }
+      .hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(12px, 3.2vw, 28px); align-items: center; }
+      .hero > .panel { background: var(--card); border: 1px solid hsl(0 0% 100% / .1); border-radius: 18px; padding: clamp(16px, 3.5vw, 24px); box-shadow: var(--shadow); }
+
+      .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+      .cta a { text-decoration: none; color: white; font-weight: 700; padding: 12px 16px; border-radius: 12px; border: 1px solid hsl(0 0% 100% / .18); background: linear-gradient(135deg, var(--bg-1), var(--bg-2)); box-shadow: var(--shadow); }
+      .cta a.secondary { background: hsl(0 0% 100% / .10); font-weight: 600; }
+
+      .meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+      .meta .tile { background: var(--card); border: 1px solid hsl(0 0% 100% / .1); border-radius: 12px; padding: 12px; min-height: 88px; display: grid; align-content: center; }
+      .meta .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .14em; }
+      .meta .v { font-size: clamp(18px, 3vw, 22px); font-weight: 800; margin-top: 6px; }
+
+      footer { padding: 18px 24px 28px; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; }
+      .links { display: flex; gap: 14px; }
+      .links a { color: inherit; }
+
+      canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; filter: blur(0.2px) saturate(115%); }
+
+      @media (max-width: 860px){ .hero { grid-template-columns: 1fr; } main { padding: 0 16px 16px; } }
+    </style>
+  </head>
+
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <canvas id="fx" aria-hidden="true"></canvas>
+
+    <div class="app">
+      <div class="card">
+        <header>
+          <div class="brand">
+            <div class="logo">D</div>
+            <div>
+              <h1>Duzi.tech</h1>
+              <div class="subtitle" id="subtitle"></div>
+            </div>
+          </div>
+          <div class="controls">
+            <button class="icon" id="themeBtn" title="Změnit motiv">🎨</button>
+            <button class="icon" id="pauseBtn" title="Pauznout animaci">⏯</button>
+            <button class="icon" id="shuffleBtn" title="Promíchat">🔀</button>
+          </div>
+        </header>
+
+        <main>
+          <section class="hero">
+            <div class="panel">
+              <h2 style="margin:0 0 6px">Ahoj, jsem David.</h2>
+              <p style="margin:0 0 10px; line-height:1.6">
+                Stavím chytré front‑endy (React / TypeScript / MobX), hraju si s UX a občas
+                ladím automatizace. Tohle je minimalistický landing s živým pozadím.
+              </p>
+              <div class="cta">
+                <a href="mailto:hi@duzi.tech">Napsat e‑mail</a>
+                <a class="secondary" href="#" onclick="alert('Sem může přijít CV, portfolio nebo GitHub.'); return false;">Portfolio</a>
+              </div>
+              <div class="meta">
+                <div class="tile"><div class="k">Stav</div><div class="v" id="statusV">Online</div></div>
+                <div class="tile"><div class="k">Čas</div><div class="v" id="timeV">—</div></div>
+                <div class="tile"><div class="k">Motiv</div><div class="v" id="themeV">Default</div></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div style="aspect-ratio: 1.4/1; border-radius: 12px; overflow: hidden; position: relative;">
+                <svg viewBox="0 0 800 570" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Abstraktní tvar">
+                  <defs>
+                    <linearGradient id="blobG" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="var(--bg-1)" />
+                      <stop offset="100%" stop-color="var(--bg-2)" />
+                    </linearGradient>
+                    <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="18" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"/></filter>
+                  </defs>
+                  <g filter="url(#goo)">
+                    <circle id="c1" cx="180" cy="240" r="120" fill="url(#blobG)"/>
+                    <circle id="c2" cx="420" cy="180" r="160" fill="url(#blobG)"/>
+                    <circle id="c3" cx="620" cy="340" r="120" fill="url(#blobG)"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <footer>
+          <div>© <span id="year"></span> Duzi.tech</div>
+          <nav class="links">
+            <a href="#" onclick="swapText(); return false;">O webu</a>
+            <a href="mailto:hi@duzi.tech">Kontakt</a>
+          </nav>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      // ===== Typing subtitle =====
+      const subtitles = [
+        "React • TypeScript • MobX",
+        "Minimalismus, ale svižný ✨",
+        "UX > hluk",
+        "Build • Measure • Learn",
+      ];
+      const subt = document.getElementById('subtitle');
+      let si = 0, char = 0, typing = true;
+      function tickType(){
+        const target = subtitles[si];
+        subt.textContent = target.slice(0, char) + (typing && (Date.now()/300|0)%2 ? '_' : '');
+        if(typing){ char++; if(char > target.length + 8){ typing = false; } }
+        else { char--; if(char <= 0){ typing = true; si = (si+1) % subtitles.length; } }
+        requestAnimationFrame(tickType);
+      }
+      tickType();
+
+      // ===== Time + status =====
+      const timeV = document.getElementById('timeV');
+      const statusV = document.getElementById('statusV');
+      const themeV = document.getElementById('themeV');
+      function pad(n){ return n.toString().padStart(2,'0'); }
+      function updateClock(){ const d = new Date(); const s = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; timeV.textContent = s; }
+      setInterval(updateClock, 1000); updateClock();
+      statusV.textContent = navigator.onLine ? 'Online' : 'Offline';
+      window.addEventListener('online', ()=> statusV.textContent = 'Online');
+      window.addEventListener('offline', ()=> statusV.textContent = 'Offline');
+
+      // ===== Theme switching + smooth color cycling =====
+      const themes = ['default','sunset','sea','neon'];
+      const THEME_BASE = { default:[210,280], sunset:[14,329], sea:[192,158], neon:[267,178] };
+      let baseHues = THEME_BASE.default.slice();
+      let hueShift = 0; // degrees
+      function setTheme(t){
+        document.documentElement.dataset.theme = t==='default' ? '' : t;
+        themeV.textContent = t.charAt(0).toUpperCase()+t.slice(1);
+        localStorage.setItem('duzi_theme', t);
+        baseHues = (THEME_BASE[t] || THEME_BASE.default).slice();
+        hueShift = 0;
+      }
+      const saved = localStorage.getItem('duzi_theme') || 'default';
+      setTheme(saved);
+      document.getElementById('themeBtn').addEventListener('click', ()=>{
+        const idx = (themes.indexOf(localStorage.getItem('duzi_theme')||'default')+1)%themes.length;
+        setTheme(themes[idx]);
+      });
+      function updateHues(dt){
+        // velmi jemný posun odstínu (~6° za minutu)
+        hueShift = (hueShift + dt*0.1) % 360;
+        const h1 = (baseHues[0] + hueShift) % 360;
+        const h2 = (baseHues[1] + hueShift + 40) % 360;
+        document.documentElement.style.setProperty('--bg-1', `hsl(${h1} 90% 55%)`);
+        document.documentElement.style.setProperty('--bg-2', `hsl(${h2} 90% 55%)`);
+      }
+
+      // ===== SVG blobs micro‑motion (slower) =====
+      const c1 = document.getElementById('c1');
+      const c2 = document.getElementById('c2');
+      const c3 = document.getElementById('c3');
+      let t0 = performance.now();
+      function wobble(now){
+        const t = (now - t0)/1000;
+        c1.setAttribute('cx', 180 + Math.sin(t*0.4)*12);
+        c1.setAttribute('cy', 240 + Math.cos(t*0.3)*10);
+        c2.setAttribute('cx', 420 + Math.cos(t*0.25)*14);
+        c2.setAttribute('cy', 180 + Math.sin(t*0.45)*12);
+        c3.setAttribute('cx', 620 + Math.sin(t*0.35)*12);
+        c3.setAttribute('cy', 340 + Math.cos(t*0.2)*9);
+        requestAnimationFrame(wobble);
+      }
+      requestAnimationFrame(wobble);
+
+      // ===== Canvas background (constellation particles) – slower =====
+      const canvas = document.getElementById('fx');
+      const ctx = canvas.getContext('2d');
+      let paused = false;
+      const dots = []; const MAX = 120; // lightweight
+      function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+      addEventListener('resize', resize, {passive:true}); resize();
+
+      function rnd(a,b){ return a + Math.random()*(b-a); }
+      for(let i=0;i<MAX;i++){
+        dots.push({ x:rnd(0,innerWidth), y:rnd(0,innerHeight), vx:rnd(-.12,.12), vy:rnd(-.12,.12), r:rnd(1,2.2) });
+      }
+      let mouse = {x:innerWidth/2,y:innerHeight/2,active:false};
+      addEventListener('pointermove', e=>{ mouse = {x:e.clientX, y:e.clientY, active:true}; });
+      addEventListener('pointerleave', ()=> mouse.active=false);
+
+      function step(){
+        if(paused) return;
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        const g = ctx.createLinearGradient(0,0,canvas.width, canvas.height);
+        const cs = getComputedStyle(document.documentElement);
+        g.addColorStop(0, cs.getPropertyValue('--bg-1'));
+        g.addColorStop(1, cs.getPropertyValue('--bg-2'));
+        ctx.globalAlpha = 0.08; ctx.fillStyle = g; ctx.fillRect(0,0,canvas.width, canvas.height); ctx.globalAlpha = 1;
+
+        for(const d of dots){
+          d.x += d.vx; d.y += d.vy;
+          if(d.x<0||d.x>innerWidth) d.vx*=-1;
+          if(d.y<0||d.y>innerHeight) d.vy*=-1;
+          const dx = (mouse.x-d.x), dy=(mouse.y-d.y);
+          const dist = Math.hypot(dx,dy);
+          if(mouse.active && dist<120){ d.vx -= dx*0.0006; d.vy -= dy*0.0006; }
+          ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.fill();
+        }
+        ctx.lineWidth = 0.6; ctx.strokeStyle = 'rgba(255,255,255,.22)';
+        for(let i=0;i<MAX;i++){
+          for(let j=i+1;j<MAX;j++){
+            const a=dots[i], b=dots[j];
+            const dx=a.x-b.x, dy=a.y-b.y; const dist=dx*dx+dy*dy;
+            if(dist < 110*110){ ctx.globalAlpha = (1 - dist/(110*110))*0.55; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      let rafId; let lastTS = performance.now();
+      function loop(ts){
+        const dt = (ts - lastTS) / 1000; lastTS = ts;
+        step();
+        updateHues(dt);
+        rafId = requestAnimationFrame(loop);
+      }
+      loop(performance.now());
+
+      // controls
+      document.getElementById('pauseBtn').addEventListener('click', ()=>{
+        paused = !paused; if(!paused){ loop(performance.now()); } else { cancelAnimationFrame(rafId); }
+      });
+      document.getElementById('shuffleBtn').addEventListener('click', ()=>{ dots.forEach(d=>{ d.vx = rnd(-.15,.15); d.vy = rnd(-.15,.15); }); });
+
+      // footer helpers
+      document.getElementById('year').textContent = new Date().getFullYear();
+      function swapText(){ alert('Duzi.tech je jednoduchý statický web: čisté HTML + CSS + JS v jednom souboru. Nahraj na hosting a hotovo.'); }
+    </script>
+  </body>
+</html>
