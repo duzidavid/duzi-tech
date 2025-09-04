@@ -250,7 +250,7 @@
 
       function rnd(a,b){ return a + Math.random()*(b-a); }
       for(let i=0;i<MAX;i++){
-        dots.push({ x:rnd(0,innerWidth), y:rnd(0,innerHeight), vx:rnd(-.12,.12), vy:rnd(-.12,.12), r:rnd(1,2.2) });
+        dots.push({ x:rnd(0,innerWidth), y:rnd(0,innerHeight), vx:rnd(-.12,.12), vy:rnd(-.12,.12), r:rnd(2,3.5) });
       }
       let mouse = {x:innerWidth/2,y:innerHeight/2,active:false};
       addEventListener('pointermove', e=>{ mouse = {x:e.clientX, y:e.clientY, active:true}; });
@@ -274,12 +274,12 @@
           if(mouse.active && dist<120){ d.vx -= dx*0.0006; d.vy -= dy*0.0006; }
           ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.fill();
         }
-        ctx.lineWidth = 0.6; ctx.strokeStyle = 'rgba(255,255,255,.22)';
+        ctx.lineWidth = 1.2; ctx.strokeStyle = 'rgba(255,255,255,.45)';
         for(let i=0;i<MAX;i++){
           for(let j=i+1;j<MAX;j++){
             const a=dots[i], b=dots[j];
             const dx=a.x-b.x, dy=a.y-b.y; const dist=dx*dx+dy*dy;
-            if(dist < 110*110){ ctx.globalAlpha = (1 - dist/(110*110))*0.55; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+            if(dist < 180*180){ ctx.globalAlpha = (1 - dist/(110*110))*0.55; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
           }
         }
         ctx.globalAlpha = 1;
