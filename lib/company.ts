@@ -14,7 +14,7 @@ export const company = {
   },
   ico: '29513898',
   spisovaZnacka: 'C 103790 vedená u Krajského soudu v Ostravě',
-  dic: 'doplníme po registraci k DPH',
+  dic: 'CZ29513898',
 } as const;
 
 export const formattedAddress = `${company.address.street}, ${company.address.zip} ${company.address.city}`;
