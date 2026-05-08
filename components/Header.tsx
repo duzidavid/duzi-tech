@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Container } from './Container';
+import { Logo } from './Logo';
 import { company } from '@/lib/company';
 
 const navLinks = [
@@ -11,17 +12,23 @@ const navLinks = [
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70">
-      <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="text-base font-semibold tracking-tight text-slate-900">
-          {company.shortName}
-          <span className="text-brand">.</span>
+      <Container className="flex h-20 items-center justify-between">
+        <Link
+          href="/"
+          className="flex items-center gap-0.5 text-lg tracking-tight text-slate-900"
+        >
+          <Logo size={56} />
+          <span>
+            <span className="font-bold">Duzi</span>
+            <span className="font-light"> Tech</span>
+          </span>
         </Link>
 
         <input id="nav-toggle" type="checkbox" className="peer hidden" aria-label="Otevřít menu" />
 
         <nav
           aria-label="Hlavní navigace"
-          className="absolute left-0 right-0 top-16 hidden flex-col gap-1 border-b border-slate-200 bg-white p-4 peer-checked:flex md:static md:flex md:flex-row md:items-center md:gap-8 md:border-0 md:bg-transparent md:p-0"
+          className="absolute left-0 right-0 top-20 hidden flex-col gap-1 border-b border-slate-200 bg-white p-4 peer-checked:flex md:static md:flex md:flex-row md:items-center md:gap-8 md:border-0 md:bg-transparent md:p-0"
         >
           {navLinks.map((link) => (
             <a
