@@ -80,7 +80,7 @@ export function Services() {
             Co děláme
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-slate-600">
-            Tři oblasti, ve kterých přinášíme firmám měřitelnou hodnotu.
+            Vyvíjíme, radíme a vzděláváme.
           </p>
         </div>
         <div className="mt-16 grid gap-6 md:grid-cols-3">
