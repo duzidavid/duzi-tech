@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-import { company } from '@/lib/company';
+import { company, formattedAddress } from '@/lib/company';
 import './globals.css';
 
 const inter = Inter({
@@ -41,10 +41,32 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: company.name,
+  url: company.url,
+  email: company.email,
+  telephone: company.tel,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: company.address.street,
+    postalCode: company.address.zip,
+    addressLocality: company.address.city,
+    addressCountry: company.address.country,
+  },
+  identifier: company.ico,
+  description: `${company.tagline}. ${formattedAddress}.`,
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="cs" className={inter.variable}>
       <body className="bg-white text-slate-900 font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         {children}
       </body>
     </html>
