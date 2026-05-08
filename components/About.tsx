@@ -35,9 +35,12 @@ export function About() {
         </div>
 
         <dl className="mt-16 grid gap-8 md:grid-cols-3">
-          {values.map((v) => (
-            <div key={v.title} className="border-l-2 border-brand pl-6">
-              <dt className="text-base font-semibold text-slate-900">{v.title}</dt>
+          {values.map((v, i) => (
+            <div key={v.title}>
+              <div className="mb-4 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-medium text-slate-500">
+                {String(i + 1).padStart(2, '0')}
+              </div>
+              <dt className="text-lg font-medium text-slate-900">{v.title}</dt>
               <dd className="mt-2 text-base leading-relaxed text-slate-600">{v.description}</dd>
             </div>
           ))}
