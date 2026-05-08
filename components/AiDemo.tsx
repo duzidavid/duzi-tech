@@ -186,17 +186,24 @@ export function AiDemo() {
               >
                 Vstup
               </label>
-              <span className="text-xs tabular-nums text-slate-400">
+              <span
+                className={`text-xs tabular-nums ${
+                  tooLong ? 'font-medium text-red-600' : 'text-slate-400'
+                }`}
+              >
                 {input.length} / {MAX_INPUT_LENGTH}
               </span>
             </div>
             <textarea
               id="ai-demo-input"
               value={input}
-              onChange={(e) => setInput(e.target.value.slice(0, MAX_INPUT_LENGTH))}
+              onChange={(e) => setInput(e.target.value)}
               placeholder="Sem vložte text k analýze…"
-              maxLength={MAX_INPUT_LENGTH}
-              className="min-h-[280px] w-full flex-1 resize-none rounded-xl border border-slate-200 bg-white p-5 text-slate-900 placeholder:text-slate-400 transition-shadow focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+              className={`min-h-[280px] w-full flex-1 resize-none rounded-xl border bg-white p-5 text-slate-900 placeholder:text-slate-400 transition-shadow focus:outline-none focus:ring-2 ${
+                tooLong
+                  ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
+                  : 'border-slate-200 focus:border-brand focus:ring-brand/20'
+              }`}
             />
             <input
               type="text"
