@@ -160,13 +160,13 @@ export function AiDemo() {
   }
 
   return (
-    <section id="ukazka" className="border-t border-slate-200/70 bg-slate-50/50 py-24 lg:py-32">
+    <section id="ai-v-praxi" className="border-t border-slate-200/70 bg-slate-100 py-24 lg:py-32">
       <Container>
         <div className="max-w-3xl">
           <div className="mb-3 flex items-center gap-3">
             <span aria-hidden="true" className="h-px w-8 bg-brand" />
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-brand">
-              Ukázka
+              AI v praxi
             </span>
           </div>
           <h2 className="mb-5 text-4xl font-bold tracking-tight text-slate-900 lg:text-5xl">

@@ -5,6 +5,7 @@ import { company } from '@/lib/company';
 
 const navLinks = [
   { href: '#sluzby', label: 'Co děláme' },
+  { href: '#ai-v-praxi', label: 'AI v praxi' },
   { href: '#o-firme', label: 'O firmě' },
   { href: '#kontakt', label: 'Kontakt' },
 ];
