@@ -15,7 +15,7 @@ export function Logo({ className, size = 36 }: LogoProps) {
     >
       <circle cx="12" cy="18" r="6" fill="currentColor" />
       <circle cx="24" cy="18" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
-      <circle cx="18" cy="18" r="2.5" fill="#1D9E75" />
+      <circle cx="18" cy="18" r="3.5" fill="#1D9E75" />
     </svg>
   );
 }
