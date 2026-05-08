@@ -58,13 +58,38 @@ function isAllowedOrigin(req: Request): boolean {
   return false;
 }
 
+async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) {
+    console.error('[ai-demo] TURNSTILE_SECRET_KEY not set');
+    return false;
+  }
+
+  const body = new URLSearchParams();
+  body.append('secret', secret);
+  body.append('response', token);
+  body.append('remoteip', ip);
+
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body,
+    });
+    const data = (await res.json()) as { success?: boolean };
+    return data.success === true;
+  } catch (err) {
+    console.error('[ai-demo] turnstile verify failed:', err instanceof Error ? err.name : 'unknown');
+    return false;
+  }
+}
+
 export async function POST(req: Request) {
   try {
     if (!isAllowedOrigin(req)) {
       return NextResponse.json({ error: 'forbidden' }, { status: 403 });
     }
 
-    const { text, website } = await req.json();
+    const { text, website, turnstileToken } = await req.json();
 
     if (typeof website === 'string' && website.length > 0) {
       return NextResponse.json({
@@ -82,6 +107,16 @@ export async function POST(req: Request) {
     }
 
     const ip = getClientIp(req);
+
+    if (process.env.TURNSTILE_SECRET_KEY) {
+      if (typeof turnstileToken !== 'string' || !turnstileToken) {
+        return NextResponse.json({ error: 'verification_required' }, { status: 403 });
+      }
+      const verified = await verifyTurnstile(turnstileToken, ip);
+      if (!verified) {
+        return NextResponse.json({ error: 'verification_failed' }, { status: 403 });
+      }
+    }
     const ipKey = `duzi-tech:ai-demo:${ip}`;
     const ipCount = await redis.incr(ipKey);
     if (ipCount === 1) {
