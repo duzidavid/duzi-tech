@@ -137,12 +137,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'daily_limit_exceeded' }, { status: 429 });
     }
 
-    const response = await anthropic.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 400,
-      system: SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: text }],
-    });
+    const response = await anthropic.messages.create(
+      {
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 400,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: text }],
+      },
+      { timeout: 8000 },
+    );
 
     const block = response.content[0];
     if (!block || block.type !== 'text') {
