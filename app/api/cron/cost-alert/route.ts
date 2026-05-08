@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 import { Redis } from '@upstash/redis';
 
 export const runtime = 'nodejs';
-
-const redis = Redis.fromEnv();
+export const dynamic = 'force-dynamic';
 
 const DAILY_LIMIT = 500;
 const ALERT_THRESHOLDS = [0.5, 0.8, 1.0];
@@ -13,6 +12,8 @@ export async function GET(req: Request) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
+
+  const redis = Redis.fromEnv();
 
   const today = new Date().toISOString().slice(0, 10);
   const usageKey = `duzi-tech:ai-demo:global:${today}`;

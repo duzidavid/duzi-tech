@@ -3,9 +3,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { Redis } from '@upstash/redis';
 
 export const runtime = 'nodejs';
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-const redis = Redis.fromEnv();
+export const dynamic = 'force-dynamic';
 
 const MAX_INPUT_LENGTH = 500;
 const PER_IP_LIMIT = 3;
@@ -88,6 +86,9 @@ export async function POST(req: Request) {
     if (!isAllowedOrigin(req)) {
       return NextResponse.json({ error: 'forbidden' }, { status: 403 });
     }
+
+    const redis = Redis.fromEnv();
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
     const { text, website, turnstileToken } = await req.json();
 
