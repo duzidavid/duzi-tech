@@ -49,7 +49,7 @@ export function Hero() {
           <p className="mt-8 text-sm text-slate-500">
             Sídlem ve Studénce
             <span aria-hidden="true" className="mx-2">·</span>
-            Vyvíjíme od 2026
+            Vyvíjíme od 2025
             <span aria-hidden="true" className="mx-2">·</span>
             IČO {company.ico}
           </p>
