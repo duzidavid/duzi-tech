@@ -1,4 +1,5 @@
 import { Container } from './Container';
+import { SectionEyebrow } from './SectionEyebrow';
 
 const values = [
   {
@@ -23,6 +24,7 @@ export function About() {
     <section id="o-firme" className="border-t border-slate-200/70 bg-slate-50/50 py-24 sm:py-32">
       <Container>
         <div className="max-w-3xl">
+          <SectionEyebrow>Profil</SectionEyebrow>
           <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             O firmě
           </h2>

@@ -1,4 +1,5 @@
 import { Container } from './Container';
+import { SectionEyebrow } from './SectionEyebrow';
 import { company } from '@/lib/company';
 
 export function Contact() {
@@ -6,6 +7,7 @@ export function Contact() {
     <section id="kontakt" className="border-t border-slate-200/70 py-24 sm:py-32">
       <Container>
         <div className="max-w-2xl">
+          <SectionEyebrow>Spojte se</SectionEyebrow>
           <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             Kontakt
           </h2>
