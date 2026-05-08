@@ -1,11 +1,12 @@
 import { Header } from '@/components/Header';
+import { Hero } from '@/components/Hero';
 
 export default function Home() {
   return (
     <>
       <Header />
       <main>
-        <p className="p-8 text-slate-600">Sekce budou doplněny v dalších commitech.</p>
+        <Hero />
       </main>
     </>
   );
