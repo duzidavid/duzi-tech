@@ -17,16 +17,16 @@ export default function PrivacyPage() {
     <>
       <Header />
       <main>
-        <article className="border-b border-slate-200/70 py-24 sm:py-32">
+        <article className="border-b border-slate-200/70 py-24 sm:py-32 dark:border-slate-800/70">
           <Container>
             <div className="mx-auto max-w-3xl">
-              <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+              <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-slate-50">
                 Ochrana osobních údajů
               </h1>
 
-              <div className="mt-12 space-y-12 text-base leading-relaxed text-slate-600">
+              <div className="mt-12 space-y-12 text-base leading-relaxed text-slate-600 dark:text-slate-300">
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900">Správce údajů</h2>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Správce údajů</h2>
                   <p className="mt-3">
                     {company.name}, IČO {company.ico}, sídlo {formattedAddress},
                     zapsaná {company.spisovaZnacka}.
@@ -34,7 +34,7 @@ export default function PrivacyPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900">
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
                     Jaké údaje zpracováváme
                   </h2>
                   <p className="mt-3">
@@ -46,19 +46,19 @@ export default function PrivacyPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900">
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
                     Kontakt na správce
                   </h2>
                   <p className="mt-3">
                     <a
                       href={`mailto:${company.email}`}
-                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand"
+                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand dark:text-slate-100 dark:decoration-slate-600"
                     >
                       {company.email}
                     </a>
                     , <a
                       href={company.telHref}
-                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand"
+                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand dark:text-slate-100 dark:decoration-slate-600"
                     >
                       {company.tel}
                     </a>
@@ -66,14 +66,14 @@ export default function PrivacyPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900">Vaše práva</h2>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Vaše práva</h2>
                   <p className="mt-3">
                     V souladu s GDPR máte právo na přístup k údajům, jejich
                     opravu, výmaz, omezení zpracování, přenositelnost a vznesení
                     námitky. Pro uplatnění práv kontaktujte{' '}
                     <a
                       href={`mailto:${company.email}`}
-                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand"
+                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand dark:text-slate-100 dark:decoration-slate-600"
                     >
                       {company.email}
                     </a>
@@ -82,12 +82,12 @@ export default function PrivacyPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900">Dozorový orgán</h2>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Dozorový orgán</h2>
                   <p className="mt-3">
                     Úřad pro ochranu osobních údajů (ÚOOÚ),{' '}
                     <a
                       href="https://www.uoou.cz"
-                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand"
+                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand dark:text-slate-100 dark:decoration-slate-600"
                       rel="noopener noreferrer"
                     >
                       www.uoou.cz
@@ -97,13 +97,13 @@ export default function PrivacyPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900">Účinnost</h2>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">Účinnost</h2>
                   <p className="mt-3">
                     Tyto zásady jsou účinné od spuštění webu. Aktuální verze je
                     vždy dostupná na{' '}
                     <Link
                       href="/ochrana-osobnich-udaju"
-                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand"
+                      className="text-slate-900 underline decoration-slate-300 underline-offset-4 transition hover:text-brand hover:decoration-brand dark:text-slate-100 dark:decoration-slate-600"
                     >
                       duzi.tech/ochrana-osobnich-udaju
                     </Link>

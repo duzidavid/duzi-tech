@@ -59,10 +59,15 @@ const organizationJsonLd = {
   description: `${company.tagline}. ${formattedAddress}.`,
 };
 
+const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="cs" className={inter.variable}>
-      <body className="bg-white text-slate-900 font-sans antialiased">
+    <html lang="cs" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="bg-white text-slate-900 font-sans antialiased dark:bg-slate-950 dark:text-slate-100">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}

@@ -13,8 +13,8 @@ export function Logo({ className, size = 36 }: LogoProps) {
       className={className}
       aria-hidden="true"
     >
-      <circle cx="12" cy="18" r="6" fill="#0F172A" />
-      <circle cx="24" cy="18" r="6" fill="none" stroke="#0F172A" strokeWidth="2" />
+      <circle cx="12" cy="18" r="6" fill="currentColor" />
+      <circle cx="24" cy="18" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
       <circle cx="18" cy="18" r="2.5" fill="#1D9E75" />
     </svg>
   );

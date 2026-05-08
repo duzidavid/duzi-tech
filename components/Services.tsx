@@ -72,14 +72,14 @@ const services = [
 
 export function Services() {
   return (
-    <section id="sluzby" className="border-t border-slate-200/70 py-24 sm:py-32">
+    <section id="sluzby" className="border-t border-slate-200/70 py-24 sm:py-32 dark:border-slate-800/70">
       <Container>
         <div className="max-w-2xl">
           <SectionEyebrow>Služby</SectionEyebrow>
-          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-slate-50">
             Co děláme
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-slate-600">
+          <p className="mt-4 text-lg leading-relaxed text-slate-600 dark:text-slate-300">
             Vyvíjíme, radíme a vzděláváme.
           </p>
         </div>

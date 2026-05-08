@@ -1,18 +1,10 @@
 import { Container } from './Container';
 import { company } from '@/lib/company';
 
-const gridStyle: React.CSSProperties = {
-  backgroundImage:
-    'linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px)',
-  backgroundSize: '64px 64px',
-  WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
-  maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
-};
-
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={gridStyle} />
+      <div aria-hidden="true" className="hero-grid pointer-events-none absolute inset-0 -z-10" />
       <Container className="py-24 sm:py-32 lg:py-40">
         <div className="max-w-3xl">
           <div className="mb-6 flex items-center gap-3">
@@ -22,10 +14,10 @@ export function Hero() {
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-slate-50">
             Stavíme AI software pro profesionály
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-slate-600 sm:text-xl">
+          <p className="mt-6 text-lg leading-relaxed text-slate-600 sm:text-xl dark:text-slate-300">
             Duzi Tech s.r.o. vyvíjí praktické AI nástroje pro odborníky, kteří
             potřebují přesnost, rychlost a spolehlivost. Konzultujeme nasazení
             AI ve firmách a vzděláváme týmy.
@@ -40,13 +32,13 @@ export function Hero() {
             </a>
             <a
               href="#kontakt"
-              className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-6 py-3.5 text-sm font-medium text-slate-900 transition hover:border-slate-900"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-6 py-3.5 text-sm font-medium text-slate-900 transition hover:border-slate-900 dark:border-slate-700 dark:text-slate-100 dark:hover:border-slate-300"
             >
               Kontakt
             </a>
           </div>
 
-          <p className="mt-8 text-sm text-slate-500">
+          <p className="mt-8 text-sm text-slate-500 dark:text-slate-400">
             Sídlem ve Studénce
             <span aria-hidden="true" className="mx-2">·</span>
             Vyvíjíme od 2026

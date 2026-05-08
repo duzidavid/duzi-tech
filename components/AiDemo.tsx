@@ -160,7 +160,7 @@ export function AiDemo() {
   }
 
   return (
-    <section id="ai-v-praxi" className="border-t border-slate-200/70 bg-slate-100 py-24 lg:py-32">
+    <section id="ai-v-praxi" className="border-t border-slate-200/70 bg-slate-100 py-24 lg:py-32 dark:border-slate-800/70 dark:bg-slate-900">
       <Container>
         <div className="max-w-3xl">
           <div className="mb-3 flex items-center gap-3">
@@ -169,10 +169,10 @@ export function AiDemo() {
               AI v praxi
             </span>
           </div>
-          <h2 className="mb-5 text-4xl font-bold tracking-tight text-slate-900 lg:text-5xl">
+          <h2 className="mb-5 text-4xl font-bold tracking-tight text-slate-900 lg:text-5xl dark:text-slate-50">
             Vyzkoušejte si
           </h2>
-          <p className="text-lg leading-relaxed text-slate-600">
+          <p className="text-lg leading-relaxed text-slate-600 dark:text-slate-300">
             Vložte krátký text — smlouva, zápis z porady, e-mail. AI vrátí
             strukturovanou analýzu za pár sekund.
           </p>
@@ -181,16 +181,16 @@ export function AiDemo() {
         <div className="mt-12">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div
-              className={`relative flex min-h-[360px] flex-col rounded-xl border bg-white transition-shadow focus-within:ring-2 ${
+              className={`relative flex min-h-[360px] flex-col rounded-xl border bg-white transition-shadow focus-within:ring-2 dark:bg-slate-950 ${
                 tooLong
-                  ? 'border-red-400 focus-within:border-red-500 focus-within:ring-red-500/20'
-                  : 'border-slate-200 focus-within:border-brand focus-within:ring-brand/20'
+                  ? 'border-red-400 focus-within:border-red-500 focus-within:ring-red-500/20 dark:border-red-500/70'
+                  : 'border-slate-200 focus-within:border-brand focus-within:ring-brand/20 dark:border-slate-800'
               }`}
             >
               <div className="px-6 pb-3 pt-6">
                 <label
                   htmlFor="ai-demo-input"
-                  className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500"
+                  className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400"
                 >
                   Vstup
                 </label>
@@ -201,11 +201,11 @@ export function AiDemo() {
                 onChange={(e) => setInput(e.target.value)}
                 onFocus={() => setShouldLoadTurnstile(true)}
                 placeholder="Sem vložte text k analýze…"
-                className="w-full flex-1 resize-none bg-transparent px-6 pb-12 text-slate-900 placeholder:text-slate-400 focus:outline-none"
+                className="w-full flex-1 resize-none bg-transparent px-6 pb-12 text-slate-900 placeholder:text-slate-400 focus:outline-none dark:text-slate-100 dark:placeholder:text-slate-500"
               />
               <span
                 className={`pointer-events-none absolute bottom-4 right-5 text-xs tabular-nums ${
-                  tooLong ? 'font-medium text-red-600' : 'text-slate-400'
+                  tooLong ? 'font-medium text-red-600 dark:text-red-400' : 'text-slate-400 dark:text-slate-500'
                 }`}
               >
                 {input.length} / {MAX_INPUT_LENGTH}
@@ -222,9 +222,9 @@ export function AiDemo() {
               />
             </div>
 
-            <div className="flex min-h-[360px] flex-col rounded-xl border border-slate-200 bg-white">
+            <div className="flex min-h-[360px] flex-col rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
               <div className="px-6 pb-3 pt-6">
-                <span className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                <span className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
                   Analýza
                 </span>
               </div>
@@ -232,21 +232,21 @@ export function AiDemo() {
               <div className="flex-1 overflow-auto px-6 pb-6">
                 {!result && !loading && !error && (
                   <div className="space-y-6">
-                    <div className="border-b border-slate-100 pb-6">
+                    <div className="border-b border-slate-100 pb-6 dark:border-slate-800">
                       <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-brand">
                         Hlavní myšlenka
                       </p>
-                      <p className="text-sm leading-relaxed text-slate-400">
+                      <p className="text-sm leading-relaxed text-slate-400 dark:text-slate-500">
                         Vložte text vlevo a klikněte na Analyzovat.
                       </p>
                     </div>
                     <div>
-                      <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                      <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
                         Akční kroky
                       </p>
                       <ul className="space-y-2.5">
                         {[0, 1].map((i) => (
-                          <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-400">
+                          <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-400 dark:text-slate-500">
                             <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
                             <span>—</span>
                           </li>
@@ -254,11 +254,11 @@ export function AiDemo() {
                       </ul>
                     </div>
                     <div>
-                      <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                      <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
                         Rizika
                       </p>
                       <ul className="space-y-2.5">
-                        <li className="flex gap-3 text-sm leading-relaxed text-slate-400">
+                        <li className="flex gap-3 text-sm leading-relaxed text-slate-400 dark:text-slate-500">
                           <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-500" />
                           <span>—</span>
                         </li>
@@ -270,26 +270,26 @@ export function AiDemo() {
                 {loading && (
                   <div className="space-y-6" aria-busy="true">
                     <div>
-                      <div className="mb-3 h-3 w-32 animate-pulse rounded bg-slate-200" />
-                      <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                      <div className="mb-3 h-3 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+                      <div className="h-4 w-full animate-pulse rounded bg-slate-100 dark:bg-slate-800/60" />
                     </div>
                     <div>
-                      <div className="mb-3 h-3 w-24 animate-pulse rounded bg-slate-200" />
+                      <div className="mb-3 h-3 w-24 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
                       <div className="space-y-2">
-                        <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
-                        <div className="h-4 w-4/5 animate-pulse rounded bg-slate-100" />
+                        <div className="h-4 w-full animate-pulse rounded bg-slate-100 dark:bg-slate-800/60" />
+                        <div className="h-4 w-4/5 animate-pulse rounded bg-slate-100 dark:bg-slate-800/60" />
                       </div>
                     </div>
                     <div>
-                      <div className="mb-3 h-3 w-20 animate-pulse rounded bg-slate-200" />
-                      <div className="h-4 w-3/4 animate-pulse rounded bg-slate-100" />
+                      <div className="mb-3 h-3 w-20 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+                      <div className="h-4 w-3/4 animate-pulse rounded bg-slate-100 dark:bg-slate-800/60" />
                     </div>
                   </div>
                 )}
 
                 {error && (
                   <div className="flex h-full items-center justify-center">
-                    <p className="text-center text-sm text-red-600" role="alert">
+                    <p className="text-center text-sm text-red-600 dark:text-red-400" role="alert">
                       {error}
                     </p>
                   </div>
@@ -297,23 +297,23 @@ export function AiDemo() {
 
                 {result && !loading && (
                   <div className="space-y-6">
-                    <div className="border-b border-slate-100 pb-6">
+                    <div className="border-b border-slate-100 pb-6 dark:border-slate-800">
                       <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-brand">
                         Hlavní myšlenka
                       </p>
-                      <p className="font-medium leading-relaxed text-slate-900">
+                      <p className="font-medium leading-relaxed text-slate-900 dark:text-slate-100">
                         {result.mainIdea}
                       </p>
                     </div>
 
                     {result.actions.length > 0 && (
                       <div>
-                        <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                        <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
                           Akční kroky
                         </p>
                         <ul className="space-y-2.5">
                           {result.actions.map((action, i) => (
-                            <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700">
+                            <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                               <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
                               <span>{action}</span>
                             </li>
@@ -324,12 +324,12 @@ export function AiDemo() {
 
                     {result.risks.length > 0 && (
                       <div>
-                        <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                        <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
                           Rizika
                         </p>
                         <ul className="space-y-2.5">
                           {result.risks.map((risk, i) => (
-                            <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700">
+                            <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                               <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-500" />
                               <span>{risk}</span>
                             </li>
@@ -349,7 +349,7 @@ export function AiDemo() {
             type="button"
             onClick={handleAnalyze}
             disabled={!canSubmit}
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-4 text-base font-medium text-white transition-colors hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-4 text-base font-medium text-white transition-colors hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:bg-slate-300 dark:disabled:bg-slate-700 dark:disabled:text-slate-500"
           >
             {loading ? (
               <>
@@ -385,11 +385,11 @@ export function AiDemo() {
           </button>
 
           {TURNSTILE_SITE_KEY && turnstileReady && !turnstileToken && (
-            <p className="mt-2 text-center text-xs text-slate-400">Probíhá ověření…</p>
+            <p className="mt-2 text-center text-xs text-slate-400 dark:text-slate-500">Probíhá ověření…</p>
           )}
         </div>
 
-        <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-relaxed text-slate-500">
+        <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-relaxed text-slate-500 dark:text-slate-400">
           Demo používá Claude Haiku přes Anthropic API. Vaše texty neukládáme.
           Anthropic vstupy zpracovává podle svých podmínek a nepoužívá je
           k trénování.
