@@ -1,9 +1,31 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Container } from './Container';
 
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        selector: string | HTMLElement,
+        options: {
+          sitekey: string;
+          callback?: (token: string) => void;
+          'error-callback'?: () => void;
+          'expired-callback'?: () => void;
+          appearance?: 'always' | 'execute' | 'interaction-only';
+          size?: 'normal' | 'compact' | 'invisible';
+        },
+      ) => string;
+      reset: (widgetId: string) => void;
+      remove: (widgetId: string) => void;
+      execute: (widgetId: string) => void;
+    };
+  }
+}
+
 const MAX_INPUT_LENGTH = 500;
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 type Result = {
   mainIdea: string;
@@ -27,8 +49,75 @@ export function AiDemo() {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const turnstileWidgetRef = useRef<string | null>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY) return;
+
+    const SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+
+    function renderWidget() {
+      if (!window.turnstile || !turnstileContainerRef.current || turnstileWidgetRef.current) return;
+      try {
+        turnstileWidgetRef.current = window.turnstile.render(turnstileContainerRef.current, {
+          sitekey: TURNSTILE_SITE_KEY!,
+          appearance: 'interaction-only',
+          callback: (token: string) => setTurnstileToken(token),
+          'error-callback': () => setTurnstileToken(null),
+          'expired-callback': () => setTurnstileToken(null),
+        });
+        setTurnstileReady(true);
+      } catch {
+        setTurnstileReady(false);
+      }
+    }
+
+    if (window.turnstile) {
+      renderWidget();
+      return;
+    }
+
+    let script = document.querySelector<HTMLScriptElement>(`script[src="${SCRIPT_SRC}"]`);
+    if (!script) {
+      script = document.createElement('script');
+      script.src = SCRIPT_SRC;
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+    script.addEventListener('load', renderWidget);
+
+    return () => {
+      script?.removeEventListener('load', renderWidget);
+      if (window.turnstile && turnstileWidgetRef.current) {
+        try {
+          window.turnstile.remove(turnstileWidgetRef.current);
+        } catch {
+          /* widget may have been removed already */
+        }
+        turnstileWidgetRef.current = null;
+      }
+    };
+  }, []);
+
+  function resetTurnstile() {
+    if (window.turnstile && turnstileWidgetRef.current) {
+      try {
+        window.turnstile.reset(turnstileWidgetRef.current);
+      } catch {
+        /* ignore */
+      }
+    }
+    setTurnstileToken(null);
+  }
+
   const tooLong = input.length > MAX_INPUT_LENGTH;
-  const canSubmit = input.trim().length > 0 && !tooLong && !loading;
+  const turnstileGate = !TURNSTILE_SITE_KEY || Boolean(turnstileToken);
+  const canSubmit =
+    input.trim().length > 0 && !tooLong && !loading && turnstileGate;
 
   async function handleAnalyze() {
     if (!canSubmit) return;
@@ -39,7 +128,7 @@ export function AiDemo() {
       const res = await fetch('/api/ai-demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: input, website: honeypot }),
+        body: JSON.stringify({ text: input, website: honeypot, turnstileToken }),
       });
       const data: { error?: string } & Partial<Result> = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -59,6 +148,7 @@ export function AiDemo() {
       setError(DEFAULT_ERROR);
     } finally {
       setLoading(false);
+      resetTurnstile();
     }
   }
 
@@ -112,6 +202,10 @@ export function AiDemo() {
               aria-hidden="true"
               style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
             />
+            <div ref={turnstileContainerRef} className="mt-3" />
+            {TURNSTILE_SITE_KEY && turnstileReady && !turnstileToken && (
+              <p className="mt-2 text-xs text-slate-400">Probíhá ověření…</p>
+            )}
             <button
               type="button"
               onClick={handleAnalyze}
