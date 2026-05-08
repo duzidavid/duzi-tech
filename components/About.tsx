@@ -25,10 +25,10 @@ export function About() {
       <Container>
         <div className="max-w-3xl">
           <SectionEyebrow>Profil</SectionEyebrow>
-          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+          <h2 className="mb-5 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             O firmě
           </h2>
-          <p className="mt-6 text-lg leading-relaxed text-slate-600">
+          <p className="text-lg leading-relaxed text-slate-600">
             Duzi Tech s.r.o. je česká AI software společnost se sídlem ve
             Studénce. Stavíme produkty, které lidem v náročných profesích šetří
             čas a zlepšují výsledky jejich práce. Věříme, že AI má sloužit
