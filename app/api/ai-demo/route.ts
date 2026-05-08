@@ -35,9 +35,19 @@ Pravidla:
 - Žádný text mimo JSON objekt`;
 
 function getClientIp(req: Request): string {
+  const vercelForwarded = req.headers.get('x-vercel-forwarded-for');
+  if (vercelForwarded) return vercelForwarded.split(',')[0].trim();
+
+  const realIp = req.headers.get('x-real-ip');
+  if (realIp) return realIp;
+
   const forwarded = req.headers.get('x-forwarded-for');
-  if (forwarded) return forwarded.split(',')[0].trim();
-  return req.headers.get('x-real-ip') ?? 'unknown';
+  if (forwarded) {
+    const ips = forwarded.split(',').map((s) => s.trim()).filter(Boolean);
+    if (ips.length > 0) return ips[ips.length - 1];
+  }
+
+  return 'unknown';
 }
 
 function isAllowedOrigin(req: Request): boolean {
