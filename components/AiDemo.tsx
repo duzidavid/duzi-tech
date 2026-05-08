@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Container } from './Container';
-import { SectionEyebrow } from './SectionEyebrow';
 
 const MAX_INPUT_LENGTH = 500;
 
@@ -28,7 +27,6 @@ export function AiDemo() {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const remaining = MAX_INPUT_LENGTH - input.length;
   const tooLong = input.length > MAX_INPUT_LENGTH;
   const canSubmit = input.trim().length > 0 && !tooLong && !loading;
 
@@ -65,14 +63,19 @@ export function AiDemo() {
   }
 
   return (
-    <section id="ukazka" className="border-t border-slate-200/70 bg-slate-50/50 py-24 sm:py-32">
+    <section id="ukazka" className="border-t border-slate-200/70 bg-slate-50/50 py-24 lg:py-32">
       <Container>
-        <div className="max-w-2xl">
-          <SectionEyebrow>Ukázka</SectionEyebrow>
-          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+        <div className="max-w-3xl">
+          <div className="mb-3 flex items-center gap-3">
+            <span aria-hidden="true" className="h-px w-8 bg-brand" />
+            <span className="text-xs font-medium uppercase tracking-[0.2em] text-brand">
+              Ukázka
+            </span>
+          </div>
+          <h2 className="mb-5 text-4xl font-bold tracking-tight text-slate-900 lg:text-5xl">
             Vyzkoušejte si
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-slate-600">
+          <p className="text-lg leading-relaxed text-slate-600">
             Vložte krátký text — smlouva, zápis z porady, e-mail. AI vrátí
             strukturovanou analýzu za pár sekund.
           </p>
@@ -80,17 +83,24 @@ export function AiDemo() {
 
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="flex flex-col">
-            <label htmlFor="ai-demo-input" className="sr-only">
-              Text k analýze
-            </label>
+            <div className="mb-3 flex items-center justify-between">
+              <label
+                htmlFor="ai-demo-input"
+                className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500"
+              >
+                Vstup
+              </label>
+              <span className="text-xs tabular-nums text-slate-400">
+                {input.length} / {MAX_INPUT_LENGTH}
+              </span>
+            </div>
             <textarea
               id="ai-demo-input"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => setInput(e.target.value.slice(0, MAX_INPUT_LENGTH))}
               placeholder="Sem vložte text k analýze…"
-              rows={10}
-              maxLength={MAX_INPUT_LENGTH * 2}
-              className="w-full flex-1 resize-none rounded-xl border border-slate-200 bg-white p-4 text-base leading-relaxed text-slate-900 placeholder:text-slate-400 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+              maxLength={MAX_INPUT_LENGTH}
+              className="min-h-[280px] w-full flex-1 resize-none rounded-xl border border-slate-200 bg-white p-5 text-slate-900 placeholder:text-slate-400 transition-shadow focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
             />
             <input
               type="text"
@@ -102,33 +112,130 @@ export function AiDemo() {
               aria-hidden="true"
               style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
             />
-            <div className="mt-2 flex items-center justify-between">
-              <p className={`text-xs ${tooLong ? 'text-red-600' : 'text-slate-500'}`}>
-                {input.length} / {MAX_INPUT_LENGTH} znaků
-                {tooLong && ` (přesáhli jste o ${-remaining})`}
-              </p>
-              <button
-                type="button"
-                onClick={handleAnalyze}
-                disabled={!canSubmit}
-                className="inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 text-sm font-medium text-white transition hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {loading ? 'Analyzuji…' : 'Analyzovat'}
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={handleAnalyze}
+              disabled={!canSubmit}
+              className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:bg-slate-300"
+            >
+              {loading ? (
+                <>
+                  <svg
+                    className="h-4 w-4 animate-spin"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
+                    <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                  </svg>
+                  Analyzuji…
+                </>
+              ) : (
+                <>
+                  Analyzovat
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14M13 5l7 7-7 7" />
+                  </svg>
+                </>
+              )}
+            </button>
           </div>
 
-          <div className="min-h-[280px] rounded-xl bg-white p-6 ring-1 ring-slate-200">
-            {error ? (
-              <p className="text-sm text-red-600" role="alert">
-                {error}
-              </p>
-            ) : loading ? (
-              <DemoSkeleton />
-            ) : result ? (
-              <DemoResult result={result} />
-            ) : (
-              <DemoPlaceholder />
+          <div className="flex min-h-[280px] flex-col rounded-xl border border-slate-200 bg-white p-6 lg:p-8">
+            <div className="mb-5 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+              Analýza
+            </div>
+
+            {!result && !loading && !error && (
+              <div className="flex flex-1 items-center justify-center text-center">
+                <p className="text-sm text-slate-400">
+                  Vložte text vlevo a klikněte na Analyzovat.
+                </p>
+              </div>
+            )}
+
+            {loading && (
+              <div className="space-y-6" aria-busy="true">
+                <div>
+                  <div className="mb-3 h-3 w-32 animate-pulse rounded bg-slate-200" />
+                  <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                </div>
+                <div>
+                  <div className="mb-3 h-3 w-24 animate-pulse rounded bg-slate-200" />
+                  <div className="space-y-2">
+                    <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                    <div className="h-4 w-4/5 animate-pulse rounded bg-slate-100" />
+                  </div>
+                </div>
+                <div>
+                  <div className="mb-3 h-3 w-20 animate-pulse rounded bg-slate-200" />
+                  <div className="h-4 w-3/4 animate-pulse rounded bg-slate-100" />
+                </div>
+              </div>
+            )}
+
+            {error && (
+              <div className="flex flex-1 items-center justify-center">
+                <p className="text-sm text-red-600" role="alert">
+                  {error}
+                </p>
+              </div>
+            )}
+
+            {result && !loading && (
+              <div className="space-y-6">
+                <div className="border-b border-slate-100 pb-6">
+                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-brand">
+                    Hlavní myšlenka
+                  </p>
+                  <p className="font-medium leading-relaxed text-slate-900">
+                    {result.mainIdea}
+                  </p>
+                </div>
+
+                {result.actions.length > 0 && (
+                  <div>
+                    <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                      Akční kroky
+                    </p>
+                    <ul className="space-y-2.5">
+                      {result.actions.map((action, i) => (
+                        <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700">
+                          <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
+                          <span>{action}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {result.risks.length > 0 && (
+                  <div>
+                    <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                      Rizika
+                    </p>
+                    <ul className="space-y-2.5">
+                      {result.risks.map((risk, i) => (
+                        <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700">
+                          <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-500" />
+                          <span>{risk}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -140,85 +247,5 @@ export function AiDemo() {
         </p>
       </Container>
     </section>
-  );
-}
-
-function DemoSection({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-brand">{label}</p>
-      <div className="mt-2">{children}</div>
-    </div>
-  );
-}
-
-function DemoPlaceholder() {
-  return (
-    <div className="space-y-6">
-      <DemoSection label="Hlavní myšlenka">
-        <p className="text-sm leading-relaxed text-slate-400">Vložte text a klikněte na Analyzovat.</p>
-      </DemoSection>
-      <DemoSection label="Akční kroky">
-        <p className="text-sm leading-relaxed text-slate-400">—</p>
-      </DemoSection>
-      <DemoSection label="Rizika">
-        <p className="text-sm leading-relaxed text-slate-400">—</p>
-      </DemoSection>
-    </div>
-  );
-}
-
-function DemoSkeleton() {
-  return (
-    <div className="space-y-6" aria-busy="true">
-      <DemoSection label="Hlavní myšlenka">
-        <div className="h-4 w-3/4 animate-pulse rounded bg-slate-200" />
-      </DemoSection>
-      <DemoSection label="Akční kroky">
-        <div className="space-y-2">
-          <div className="h-3 w-5/6 animate-pulse rounded bg-slate-200" />
-          <div className="h-3 w-2/3 animate-pulse rounded bg-slate-200" />
-          <div className="h-3 w-3/4 animate-pulse rounded bg-slate-200" />
-        </div>
-      </DemoSection>
-      <DemoSection label="Rizika">
-        <div className="space-y-2">
-          <div className="h-3 w-4/5 animate-pulse rounded bg-slate-200" />
-          <div className="h-3 w-3/5 animate-pulse rounded bg-slate-200" />
-        </div>
-      </DemoSection>
-    </div>
-  );
-}
-
-function DemoResult({ result }: { result: Result }) {
-  return (
-    <div className="space-y-6">
-      <DemoSection label="Hlavní myšlenka">
-        <p className="text-base leading-relaxed text-slate-900">{result.mainIdea}</p>
-      </DemoSection>
-      <DemoSection label="Akční kroky">
-        {result.actions.length > 0 ? (
-          <ul className="list-disc space-y-1 pl-5 text-sm leading-relaxed text-slate-700">
-            {result.actions.map((a, i) => (
-              <li key={i}>{a}</li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-sm leading-relaxed text-slate-500">Žádné konkrétní akční kroky.</p>
-        )}
-      </DemoSection>
-      <DemoSection label="Rizika">
-        {result.risks.length > 0 ? (
-          <ul className="list-disc space-y-1 pl-5 text-sm leading-relaxed text-slate-700">
-            {result.risks.map((r, i) => (
-              <li key={i}>{r}</li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-sm leading-relaxed text-slate-500">Žádná zjevná rizika.</p>
-        )}
-      </DemoSection>
-    </div>
   );
 }
