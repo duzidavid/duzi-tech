@@ -178,204 +178,215 @@ export function AiDemo() {
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <div className="flex flex-col">
-            <div className="mb-3 flex items-center justify-between">
-              <label
-                htmlFor="ai-demo-input"
-                className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500"
-              >
-                Vstup
-              </label>
+        <div className="mt-12">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div
+              className={`relative flex min-h-[360px] flex-col rounded-xl border bg-white transition-shadow focus-within:ring-2 ${
+                tooLong
+                  ? 'border-red-400 focus-within:border-red-500 focus-within:ring-red-500/20'
+                  : 'border-slate-200 focus-within:border-brand focus-within:ring-brand/20'
+              }`}
+            >
+              <div className="px-6 pb-3 pt-6">
+                <label
+                  htmlFor="ai-demo-input"
+                  className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500"
+                >
+                  Vstup
+                </label>
+              </div>
+              <textarea
+                id="ai-demo-input"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onFocus={() => setShouldLoadTurnstile(true)}
+                placeholder="Sem vložte text k analýze…"
+                className="w-full flex-1 resize-none bg-transparent px-6 pb-12 text-slate-900 placeholder:text-slate-400 focus:outline-none"
+              />
               <span
-                className={`text-xs tabular-nums ${
+                className={`pointer-events-none absolute bottom-4 right-5 text-xs tabular-nums ${
                   tooLong ? 'font-medium text-red-600' : 'text-slate-400'
                 }`}
               >
                 {input.length} / {MAX_INPUT_LENGTH}
               </span>
-            </div>
-            <textarea
-              id="ai-demo-input"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onFocus={() => setShouldLoadTurnstile(true)}
-              placeholder="Sem vložte text k analýze…"
-              className={`min-h-[280px] w-full flex-1 resize-none rounded-xl border bg-white p-5 text-slate-900 placeholder:text-slate-400 transition-shadow focus:outline-none focus:ring-2 ${
-                tooLong
-                  ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
-                  : 'border-slate-200 focus:border-brand focus:ring-brand/20'
-              }`}
-            />
-            <input
-              type="text"
-              name="website"
-              value={honeypot}
-              onChange={(e) => setHoneypot(e.target.value)}
-              tabIndex={-1}
-              autoComplete="off"
-              aria-hidden="true"
-              style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
-            />
-            <div ref={turnstileContainerRef} />
-            {TURNSTILE_SITE_KEY && turnstileReady && !turnstileToken && (
-              <p className="mt-2 text-xs text-slate-400">Probíhá ověření…</p>
-            )}
-            <button
-              type="button"
-              onClick={handleAnalyze}
-              disabled={!canSubmit}
-              className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:bg-slate-300"
-            >
-              {loading ? (
-                <>
-                  <svg
-                    className="h-4 w-4 animate-spin"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
-                    <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                  </svg>
-                  Analyzuji…
-                </>
-              ) : (
-                <>
-                  Analyzovat
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M5 12h14M13 5l7 7-7 7" />
-                  </svg>
-                </>
-              )}
-            </button>
-          </div>
-
-          <div className="flex min-h-[280px] flex-col rounded-xl border border-slate-200 bg-white p-6 lg:p-8">
-            <div className="mb-5 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
-              Analýza
+              <input
+                type="text"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+              />
             </div>
 
-            {!result && !loading && !error && (
-              <div className="space-y-6">
-                <div className="border-b border-slate-100 pb-6">
-                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-brand">
-                    Hlavní myšlenka
-                  </p>
-                  <p className="text-sm leading-relaxed text-slate-400">
-                    Vložte text vlevo a klikněte na Analyzovat.
-                  </p>
-                </div>
-                <div>
-                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
-                    Akční kroky
-                  </p>
-                  <ul className="space-y-2.5">
-                    {[0, 1].map((i) => (
-                      <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-400">
-                        <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
-                        <span>—</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
-                    Rizika
-                  </p>
-                  <ul className="space-y-2.5">
-                    <li className="flex gap-3 text-sm leading-relaxed text-slate-400">
-                      <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-500" />
-                      <span>—</span>
-                    </li>
-                  </ul>
-                </div>
+            <div className="flex min-h-[360px] flex-col rounded-xl border border-slate-200 bg-white">
+              <div className="px-6 pb-3 pt-6">
+                <span className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                  Analýza
+                </span>
               </div>
-            )}
 
-            {loading && (
-              <div className="space-y-6" aria-busy="true">
-                <div>
-                  <div className="mb-3 h-3 w-32 animate-pulse rounded bg-slate-200" />
-                  <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
-                </div>
-                <div>
-                  <div className="mb-3 h-3 w-24 animate-pulse rounded bg-slate-200" />
-                  <div className="space-y-2">
-                    <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
-                    <div className="h-4 w-4/5 animate-pulse rounded bg-slate-100" />
-                  </div>
-                </div>
-                <div>
-                  <div className="mb-3 h-3 w-20 animate-pulse rounded bg-slate-200" />
-                  <div className="h-4 w-3/4 animate-pulse rounded bg-slate-100" />
-                </div>
-              </div>
-            )}
-
-            {error && (
-              <div className="flex flex-1 items-center justify-center">
-                <p className="text-sm text-red-600" role="alert">
-                  {error}
-                </p>
-              </div>
-            )}
-
-            {result && !loading && (
-              <div className="space-y-6">
-                <div className="border-b border-slate-100 pb-6">
-                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-brand">
-                    Hlavní myšlenka
-                  </p>
-                  <p className="font-medium leading-relaxed text-slate-900">
-                    {result.mainIdea}
-                  </p>
-                </div>
-
-                {result.actions.length > 0 && (
-                  <div>
-                    <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
-                      Akční kroky
-                    </p>
-                    <ul className="space-y-2.5">
-                      {result.actions.map((action, i) => (
-                        <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700">
-                          <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
-                          <span>{action}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {result.risks.length > 0 && (
-                  <div>
-                    <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
-                      Rizika
-                    </p>
-                    <ul className="space-y-2.5">
-                      {result.risks.map((risk, i) => (
-                        <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700">
+              <div className="flex-1 overflow-auto px-6 pb-6">
+                {!result && !loading && !error && (
+                  <div className="space-y-6">
+                    <div className="border-b border-slate-100 pb-6">
+                      <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-brand">
+                        Hlavní myšlenka
+                      </p>
+                      <p className="text-sm leading-relaxed text-slate-400">
+                        Vložte text vlevo a klikněte na Analyzovat.
+                      </p>
+                    </div>
+                    <div>
+                      <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                        Akční kroky
+                      </p>
+                      <ul className="space-y-2.5">
+                        {[0, 1].map((i) => (
+                          <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-400">
+                            <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
+                            <span>—</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                        Rizika
+                      </p>
+                      <ul className="space-y-2.5">
+                        <li className="flex gap-3 text-sm leading-relaxed text-slate-400">
                           <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-500" />
-                          <span>{risk}</span>
+                          <span>—</span>
                         </li>
-                      ))}
-                    </ul>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {loading && (
+                  <div className="space-y-6" aria-busy="true">
+                    <div>
+                      <div className="mb-3 h-3 w-32 animate-pulse rounded bg-slate-200" />
+                      <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                    </div>
+                    <div>
+                      <div className="mb-3 h-3 w-24 animate-pulse rounded bg-slate-200" />
+                      <div className="space-y-2">
+                        <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                        <div className="h-4 w-4/5 animate-pulse rounded bg-slate-100" />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="mb-3 h-3 w-20 animate-pulse rounded bg-slate-200" />
+                      <div className="h-4 w-3/4 animate-pulse rounded bg-slate-100" />
+                    </div>
+                  </div>
+                )}
+
+                {error && (
+                  <div className="flex h-full items-center justify-center">
+                    <p className="text-center text-sm text-red-600" role="alert">
+                      {error}
+                    </p>
+                  </div>
+                )}
+
+                {result && !loading && (
+                  <div className="space-y-6">
+                    <div className="border-b border-slate-100 pb-6">
+                      <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-brand">
+                        Hlavní myšlenka
+                      </p>
+                      <p className="font-medium leading-relaxed text-slate-900">
+                        {result.mainIdea}
+                      </p>
+                    </div>
+
+                    {result.actions.length > 0 && (
+                      <div>
+                        <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                          Akční kroky
+                        </p>
+                        <ul className="space-y-2.5">
+                          {result.actions.map((action, i) => (
+                            <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700">
+                              <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
+                              <span>{action}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {result.risks.length > 0 && (
+                      <div>
+                        <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                          Rizika
+                        </p>
+                        <ul className="space-y-2.5">
+                          {result.risks.map((risk, i) => (
+                            <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-700">
+                              <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-500" />
+                              <span>{risk}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
+
+          <div ref={turnstileContainerRef} className="mt-6 flex justify-center" />
+
+          <button
+            type="button"
+            onClick={handleAnalyze}
+            disabled={!canSubmit}
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-4 text-base font-medium text-white transition-colors hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:bg-slate-300"
+          >
+            {loading ? (
+              <>
+                <svg
+                  className="h-4 w-4 animate-spin"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
+                  <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                </svg>
+                Analyzuji…
+              </>
+            ) : (
+              <>
+                Analyzovat
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 5l7 7-7 7" />
+                </svg>
+              </>
+            )}
+          </button>
+
+          {TURNSTILE_SITE_KEY && turnstileReady && !turnstileToken && (
+            <p className="mt-2 text-center text-xs text-slate-400">Probíhá ověření…</p>
+          )}
         </div>
 
         <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-relaxed text-slate-500">
