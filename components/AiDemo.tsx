@@ -265,10 +265,39 @@ export function AiDemo() {
             </div>
 
             {!result && !loading && !error && (
-              <div className="flex flex-1 items-center justify-center text-center">
-                <p className="text-sm text-slate-400">
-                  Vložte text vlevo a klikněte na Analyzovat.
-                </p>
+              <div className="space-y-6">
+                <div className="border-b border-slate-100 pb-6">
+                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-brand">
+                    Hlavní myšlenka
+                  </p>
+                  <p className="text-sm leading-relaxed text-slate-400">
+                    Vložte text vlevo a klikněte na Analyzovat.
+                  </p>
+                </div>
+                <div>
+                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                    Akční kroky
+                  </p>
+                  <ul className="space-y-2.5">
+                    {[0, 1].map((i) => (
+                      <li key={i} className="flex gap-3 text-sm leading-relaxed text-slate-400">
+                        <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
+                        <span>—</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-500">
+                    Rizika
+                  </p>
+                  <ul className="space-y-2.5">
+                    <li className="flex gap-3 text-sm leading-relaxed text-slate-400">
+                      <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-500" />
+                      <span>—</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             )}
 
