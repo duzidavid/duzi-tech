@@ -13,38 +13,65 @@ export default function OpengraphImage() {
         style={{
           width: '100%',
           height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-          padding: '96px',
-          background: 'linear-gradient(135deg, #1D9E75 0%, #157A5B 100%)',
+          padding: '80px',
+          background: '#0F172A',
           color: '#ffffff',
           fontFamily: 'sans-serif',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          position: 'relative',
         }}
       >
-        <div
-          style={{
-            fontSize: 112,
-            fontWeight: 700,
-            letterSpacing: -2,
-            lineHeight: 1,
-            display: 'flex',
-          }}
+        <svg
+          width="80"
+          height="80"
+          viewBox="0 0 36 36"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ display: 'flex' }}
         >
-          {company.shortName}
-          <span style={{ opacity: 0.85 }}>.</span>
+          <circle cx="12" cy="18" r="6" fill="#ffffff" />
+          <circle cx="24" cy="18" r="6" fill="none" stroke="#ffffff" strokeWidth="2" />
+          <circle cx="18" cy="18" r="2.5" fill="#1D9E75" />
+        </svg>
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div
+            style={{
+              fontSize: 96,
+              fontWeight: 700,
+              letterSpacing: -2,
+              lineHeight: 1,
+              color: '#ffffff',
+              display: 'flex',
+            }}
+          >
+            Duzi Tech
+          </div>
+          <div
+            style={{
+              marginTop: 24,
+              fontSize: 36,
+              fontWeight: 400,
+              color: '#CBD5E1',
+              display: 'flex',
+            }}
+          >
+            {company.tagline}
+          </div>
         </div>
+
         <div
           style={{
-            marginTop: 32,
-            fontSize: 40,
-            fontWeight: 400,
-            opacity: 0.95,
+            position: 'absolute',
+            bottom: 80,
+            right: 80,
+            fontSize: 24,
+            color: '#94A3B8',
             display: 'flex',
           }}
         >
-          {company.tagline}
+          duzi.tech
         </div>
       </div>
     ),
