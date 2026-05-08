@@ -57,11 +57,12 @@ export function AiDemo() {
 
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileReady, setTurnstileReady] = useState(false);
+  const [shouldLoadTurnstile, setShouldLoadTurnstile] = useState(false);
   const turnstileWidgetRef = useRef<string | null>(null);
   const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!TURNSTILE_SITE_KEY) return;
+    if (!TURNSTILE_SITE_KEY || !shouldLoadTurnstile) return;
 
     const SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 
@@ -107,7 +108,7 @@ export function AiDemo() {
         turnstileWidgetRef.current = null;
       }
     };
-  }, []);
+  }, [shouldLoadTurnstile]);
 
   function resetTurnstile() {
     if (window.turnstile && turnstileWidgetRef.current) {
@@ -198,6 +199,7 @@ export function AiDemo() {
               id="ai-demo-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onFocus={() => setShouldLoadTurnstile(true)}
               placeholder="Sem vložte text k analýze…"
               className={`min-h-[280px] w-full flex-1 resize-none rounded-xl border bg-white p-5 text-slate-900 placeholder:text-slate-400 transition-shadow focus:outline-none focus:ring-2 ${
                 tooLong
@@ -215,7 +217,7 @@ export function AiDemo() {
               aria-hidden="true"
               style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
             />
-            <div ref={turnstileContainerRef} className="mt-3" />
+            <div ref={turnstileContainerRef} />
             {TURNSTILE_SITE_KEY && turnstileReady && !turnstileToken && (
               <p className="mt-2 text-xs text-slate-400">Probíhá ověření…</p>
             )}
