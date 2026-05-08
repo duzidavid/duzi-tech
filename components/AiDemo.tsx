@@ -23,6 +23,7 @@ const DEFAULT_ERROR = 'Něco se nepodařilo. Zkuste to prosím znovu.';
 
 export function AiDemo() {
   const [input, setInput] = useState('');
+  const [honeypot, setHoneypot] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +41,7 @@ export function AiDemo() {
       const res = await fetch('/api/ai-demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: input }),
+        body: JSON.stringify({ text: input, website: honeypot }),
       });
       const data: { error?: string } & Partial<Result> = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -90,6 +91,16 @@ export function AiDemo() {
               rows={10}
               maxLength={MAX_INPUT_LENGTH * 2}
               className="w-full flex-1 resize-none rounded-xl border border-slate-200 bg-white p-4 text-base leading-relaxed text-slate-900 placeholder:text-slate-400 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+            />
+            <input
+              type="text"
+              name="website"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
             />
             <div className="mt-2 flex items-center justify-between">
               <p className={`text-xs ${tooLong ? 'text-red-600' : 'text-slate-500'}`}>

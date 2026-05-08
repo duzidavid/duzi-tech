@@ -64,7 +64,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'forbidden' }, { status: 403 });
     }
 
-    const { text } = await req.json();
+    const { text, website } = await req.json();
+
+    if (typeof website === 'string' && website.length > 0) {
+      return NextResponse.json({
+        mainIdea: 'Analýza dokončena.',
+        actions: [],
+        risks: [],
+      });
+    }
 
     if (typeof text !== 'string' || !text.trim()) {
       return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
