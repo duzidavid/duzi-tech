@@ -150,7 +150,13 @@ export async function POST(req: Request) {
     }
 
     const cleaned = block.text.trim().replace(/^```json\s*|```$/g, '').trim();
-    const parsed = JSON.parse(cleaned);
+
+    let parsed;
+    try {
+      parsed = JSON.parse(cleaned);
+    } catch {
+      return NextResponse.json({ error: 'invalid_format' }, { status: 500 });
+    }
 
     if (
       typeof parsed.mainIdea !== 'string' ||
