@@ -33,14 +33,20 @@ type Result = {
   risks: string[];
 };
 
-const ERROR_MESSAGES: Record<string, string> = {
-  rate_limited: 'Přesáhli jste limit požadavků. Zkuste to za hodinu.',
-  daily_limit_exceeded: 'Demo dnes vyčerpáno. Zkuste prosím zítra.',
-  too_long: 'Text je příliš dlouhý. Zkraťte ho prosím.',
-  invalid_input: 'Vložte prosím text k analýze.',
-};
+const DEFAULT_ERROR = 'Něco se nepodařilo. Zkuste to prosím znovu za chvíli.';
 
-const DEFAULT_ERROR = 'Něco se nepodařilo. Zkuste to prosím znovu.';
+function messageForError(code: string | undefined): string {
+  switch (code) {
+    case 'rate_limited':
+      return 'Přesáhli jste limit požadavků. Zkuste to za hodinu.';
+    case 'daily_limit_exceeded':
+      return 'Demo dnes vyčerpáno. Zkuste prosím zítra.';
+    case 'too_long':
+      return 'Text je příliš dlouhý. Zkraťte ho prosím pod 500 znaků.';
+    default:
+      return DEFAULT_ERROR;
+  }
+}
 
 export function AiDemo() {
   const [input, setInput] = useState('');
@@ -132,7 +138,7 @@ export function AiDemo() {
       });
       const data: { error?: string } & Partial<Result> = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(ERROR_MESSAGES[data.error ?? ''] ?? DEFAULT_ERROR);
+        setError(messageForError(data.error));
         return;
       }
       if (
