@@ -15,7 +15,7 @@ const values = [
   {
     title: 'Profesní důvěryhodnost',
     description:
-      'Naše produkty používají odborníci v regulovaných oborech. Přesnost a spolehlivost jsou nepřekročitelné.',
+      'Stavíme produkty pro odborníky v regulovaných oborech. Přesnost a spolehlivost jsou pro nás nepřekročitelné.',
   },
 ];
 
