@@ -14,47 +14,46 @@ export function Contact() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-12 md:grid-cols-2">
-          <div>
-            <p className="text-sm font-medium uppercase tracking-wider text-slate-500">E-mail</p>
+        <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">E-mail</p>
             <a
               href={`mailto:${company.email}`}
-              className="mt-2 inline-block text-2xl font-semibold text-slate-900 transition hover:text-brand sm:text-3xl"
+              className="mt-2 inline-block text-3xl font-medium text-slate-900 transition hover:text-brand lg:text-4xl"
             >
               {company.email}
             </a>
 
-            <p className="mt-10 text-sm font-medium uppercase tracking-wider text-slate-500">Telefon</p>
+            <p className="mt-8 text-xs font-medium uppercase tracking-wider text-slate-500">Telefon</p>
             <a
               href={company.telHref}
-              className="mt-2 inline-block text-2xl font-semibold text-slate-900 transition hover:text-brand sm:text-3xl"
+              className="mt-2 inline-block text-3xl font-medium text-slate-900 transition hover:text-brand lg:text-4xl"
             >
               {company.tel}
             </a>
           </div>
 
-          <div className="text-base leading-relaxed text-slate-600">
-            <p className="text-sm font-medium uppercase tracking-wider text-slate-500">Sídlo</p>
-            <address className="mt-2 not-italic text-slate-900">
-              {company.name}
-              <br />
-              {company.address.street}
-              <br />
-              {company.address.zip} {company.address.city}
-            </address>
-
-            <dl className="mt-10 space-y-3 text-sm">
-              <div className="flex flex-wrap gap-x-2">
-                <dt className="font-medium text-slate-500">IČO:</dt>
-                <dd className="text-slate-900">{company.ico}</dd>
+          <div className="rounded-xl bg-slate-50 p-6">
+            <dl className="space-y-4 text-sm">
+              <div>
+                <dt className="text-slate-500">Adresa</dt>
+                <dd className="mt-1 font-medium text-slate-900">
+                  {company.address.street}
+                  <br />
+                  {company.address.zip} {company.address.city}
+                </dd>
               </div>
-              <div className="flex flex-wrap gap-x-2">
-                <dt className="font-medium text-slate-500">Spisová značka:</dt>
-                <dd className="text-slate-900">{company.spisovaZnacka}</dd>
+              <div>
+                <dt className="text-slate-500">IČO</dt>
+                <dd className="mt-1 font-medium text-slate-900">{company.ico}</dd>
               </div>
-              <div className="flex flex-wrap gap-x-2">
-                <dt className="font-medium text-slate-500">DIČ:</dt>
-                <dd className="text-slate-600">{company.dic}</dd>
+              <div>
+                <dt className="text-slate-500">Spisová značka</dt>
+                <dd className="mt-1 font-medium text-slate-900">{company.spisovaZnacka}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-500">DIČ</dt>
+                <dd className="mt-1 font-medium text-slate-900">{company.dic}</dd>
               </div>
             </dl>
           </div>
