@@ -5,6 +5,7 @@ import { ThemeToggle } from './ThemeToggle';
 
 const navLinks = [
   { href: '#sluzby', label: 'Co děláme' },
+  { href: '#produkty', label: 'Produkty' },
   { href: '#ai-v-praxi', label: 'AI v praxi' },
   { href: '#o-firme', label: 'O firmě' },
   { href: '#kontakt', label: 'Kontakt' },
