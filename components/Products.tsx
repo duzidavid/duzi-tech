@@ -39,9 +39,28 @@ export function Products() {
               priority={false}
               className="h-10 w-auto sm:h-12"
             />
-            <span className="inline-flex items-center self-start rounded-md border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600 sm:self-auto dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
-              Připravujeme
-            </span>
+            <a
+              href="https://aktai.cz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 self-start rounded-md bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand/90 sm:self-auto"
+            >
+              Otevřít aktai.cz
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M7 17 17 7" />
+                <path d="M7 7h10v10" />
+              </svg>
+            </a>
           </div>
 
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
