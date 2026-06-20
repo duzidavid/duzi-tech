@@ -169,7 +169,7 @@ export function Products() {
             <code className="rounded bg-slate-100 px-1.5 py-0.5 text-[0.8125rem] text-slate-700 dark:bg-slate-800 dark:text-slate-300">
               https://ares-explorer-mcp.vercel.app/api/mcp
             </code>{' '}
-            (Settings → Connectors, vyžaduje placený plán) a napište „Ukaž graf vazeb firmy s IČO 24261980.“
+            (Customize → Connectors → Add custom connector, vyžaduje placený plán) a napište „Ukaž graf vazeb firmy s IČO 24261980.“
           </p>
         </article>
       </Container>
