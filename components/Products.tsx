@@ -132,15 +132,6 @@ export function Products() {
             </a>
           </div>
 
-          <Image
-            src="/ares-explorer-graph.png"
-            alt="ARES Explorer — interaktivní graf vlastnických a personálních vazeb firmy Kofola ČeskoSlovensko a.s."
-            width={1472}
-            height={1024}
-            priority={false}
-            className="mt-6 w-full rounded-lg border border-slate-200 dark:border-slate-800"
-          />
-
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">
             MCP aplikace, která přímo v Claude vykreslí vlastnické a personální vazby české firmy
             jako interaktivní graf. Zadáte IČO, rozkliknete uzel — a síť napojených firem a osob se
